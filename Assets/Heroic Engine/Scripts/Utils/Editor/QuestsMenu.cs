@@ -1,0 +1,204 @@
+using HeroicEngine.Enums;
+using HeroicEngine.Gameplay;
+using HeroicEngine.Systems.Gameplay;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+using HeroicEngine.Utils.Data;
+
+namespace HeroicEngine.Utils.Editor
+{
+    public class QuestsMenu : EditorWindow
+    {
+        const string QuestsCollectionPath = "Assets/Heroic Engine/Scriptables/Quests/QuestsCollection.asset";
+        QuestsCollection questsCollection;
+        string questTitle;
+        string questDesc;
+        Sprite questSprite;
+        string statusText;
+        QuestInfo[] nextQuests = new QuestInfo[0];
+        QuestTask[] tasks = new QuestTask[0];
+        int expReward;
+        bool isInitial;
+        Vector2 scrollPosition;
+        Vector2 scrollPositionTasks;
+        string newTaskType;
+        string taskTypesPath = "Assets/Heroic Engine/Scripts/Enums/";
+        string taskTypesFileName = "QuestTaskType";
+        List<string> taskTypes = new List<string>();
+
+        [MenuItem("Tools/HeroicEngine/Create Quest")]
+        public static void ShowWindow()
+        {
+            GetWindow<QuestsMenu>("Quest Creator");
+        }
+
+        private bool IsTaskTypeNameValid()
+        {
+            return !string.IsNullOrEmpty(newTaskType) && char.IsLetter(newTaskType[0]) && !newTaskType.Contains(" ");
+        }
+
+        private void OnGUI()
+        {
+            questsCollection ??= AssetDatabase.LoadAssetAtPath<QuestsCollection>(QuestsCollectionPath);
+            taskTypes = new List<string>(Enum.GetNames(typeof(QuestTaskType)));
+
+            EditorGUILayout.LabelField("Register new quest");
+
+            GUIStyle smallInfoStyle = new GUIStyle();
+            smallInfoStyle.fontStyle = FontStyle.Italic;
+            smallInfoStyle.fontSize = 11;
+            smallInfoStyle.wordWrap = true;
+            smallInfoStyle.richText = true;
+
+            EditorGUILayout.LabelField("Quest title:");
+            questTitle = EditorGUILayout.TextField(questTitle);
+            EditorGUILayout.LabelField("Quest desc:");
+            questDesc = EditorGUILayout.TextField(questDesc);
+
+            questSprite = (Sprite)EditorGUILayout.ObjectField("Quest icon", questSprite, typeof(Sprite), false);
+
+            EditorGUILayout.LabelField("Quest Tasks");
+
+            scrollPositionTasks = EditorGUILayout.BeginScrollView(scrollPositionTasks);
+
+            // Display each prefab in the list
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                EditorGUILayout.BeginVertical(GUI.skin.box);
+
+                EditorGUILayout.LabelField("Task type:");
+                List<string> taskTypes = new List<string>(Enum.GetNames(typeof(QuestTaskType)));
+                var mainTaskType = (QuestTaskType)EditorGUILayout.Popup((int)tasks[i].TaskType, taskTypes.ToArray());
+
+                int mainTaskAmount = EditorGUILayout.IntField("Task needed amount", tasks[i].NeededAmount);
+                mainTaskAmount = Mathf.Clamp(mainTaskAmount, 1, mainTaskAmount);
+
+                // Display the prefab field
+                tasks[i] = new QuestTask { TaskType = mainTaskType, NeededAmount = mainTaskAmount };
+
+                // Add a remove button
+                if (GUILayout.Button("Remove", GUILayout.Width(60)))
+                {
+                    ArrayUtility.RemoveAt(ref tasks, i);
+                }
+
+                EditorGUILayout.EndVertical();
+            }
+
+            EditorGUILayout.EndScrollView();
+
+            if (GUILayout.Button("Add Quest Task"))
+            {
+                ArrayUtility.Add(ref tasks, default);
+            }
+
+            if (GUILayout.Button("Clear Quest Tasks"))
+            {
+                tasks = new QuestTask[0];
+            }
+
+            newTaskType = EditorGUILayout.TextField("New task type", newTaskType);
+
+            if (GUILayout.Button("Register new Task type"))
+            {
+                if (!IsTaskTypeNameValid())
+                {
+                    statusText = "Invalid task type name!".ToColorizedString(Color.red);
+                }
+                else if (taskTypes.Contains(newTaskType))
+                {
+                    statusText = "This task type already exists!".ToColorizedString(Color.yellow);
+                }
+                else
+                {
+                    taskTypes.Add(newTaskType);
+                    EnumUtils.WriteToEnum(taskTypesPath, taskTypesFileName, taskTypes);
+                    newTaskType = "";
+                }
+            }
+
+            EditorGUILayout.Space(20);
+
+            expReward = EditorGUILayout.IntField("Experience reward", expReward);
+            expReward = Mathf.Clamp(expReward, 0, expReward);
+
+            isInitial = EditorGUILayout.Toggle("Is available from start", isInitial);
+
+            EditorGUILayout.LabelField("Next Quests");
+
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
+            // Display each prefab in the list
+            for (int i = 0; i < nextQuests.Length; i++)
+            {
+                EditorGUILayout.BeginHorizontal(GUI.skin.box);
+
+                // Display the prefab field
+                nextQuests[i] = (QuestInfo)EditorGUILayout.ObjectField($"Quest {i + 1}", nextQuests[i], typeof(QuestInfo), false);
+
+                // Add a remove button
+                if (GUILayout.Button("Remove", GUILayout.Width(60)))
+                {
+                    ArrayUtility.RemoveAt(ref nextQuests, i);
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUILayout.EndScrollView();
+
+            if (GUILayout.Button("Add Next Quest"))
+            {
+                ArrayUtility.Add(ref nextQuests, null);
+            }
+
+            if (GUILayout.Button("Clear Next Quests"))
+            {
+                nextQuests = new QuestInfo[0];
+            }
+
+            EditorGUILayout.Space(20);
+
+            GUIStyle italicStyle = new GUIStyle();
+            italicStyle.fontStyle = FontStyle.Italic;
+            italicStyle.richText = true;
+
+            if (GUILayout.Button("Register"))
+            {
+                if (!string.IsNullOrEmpty(questTitle))
+                {
+                    if (!File.Exists($"{Application.dataPath}/Heroic Engine/Scriptables/Quests/{questTitle}.asset"))
+                    {
+                        if (questsCollection == null)
+                        {
+                            QuestsCollection collection = CreateInstance<QuestsCollection>();
+                            QuestInfo questInfo = collection.CreateItem($"Assets/Heroic Engine/Scriptables/Quests/{questTitle}.asset", questTitle, questDesc, questSprite, expReward,
+                                tasks, nextQuests);
+                            collection.SetInitial(questInfo, isInitial);
+                            questsCollection = collection;
+                            AssetDatabase.CreateAsset(collection, QuestsCollectionPath);
+                            AssetDatabase.SaveAssets();
+                        }
+                        else
+                        {
+                            QuestInfo questInfo = questsCollection.CreateItem($"Assets/Heroic Engine/Scriptables/Quests/{questTitle}.asset", questTitle, questDesc, questSprite, expReward,
+                                tasks, nextQuests);
+                            questsCollection.SetInitial(questInfo, isInitial);
+                        }
+                        
+                        statusText = "Quest registered.".ToColorizedString(Color.green);
+                    }
+                    else
+                    {
+                        statusText = "This quest was already registered!".ToColorizedString(Color.red);
+                    }
+                }
+            }
+
+            EditorGUILayout.LabelField(statusText, italicStyle);
+        }
+    }
+}

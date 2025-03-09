@@ -1,0 +1,109 @@
+Third-Party Notices
+===================
+
+This project uses scripts, shaders, audio and font assets under their respective licenses. Below are the details:
+
+1. **Asset Name**: teleport-error-39936.mp3
+   - **Author**: Jerimee (Freesound)
+   - **License**: CC0
+   - **Link**: https://pixabay.com/sound-effects/teleport-error-39936/
+   - **Copyright**: © Jerimee (Freesound)
+
+2. **Asset Name**: 172206__fins__teleport.wav
+   - **Author**: fins
+   - **License**: CC0
+   - **Link**: https://opengameart.org/content/teleport
+   - **Copyright**: © fins
+
+3. **Asset Name**: patents-219735.mp3
+   - **Author**: OceanKing
+   - **License**: CC0
+   - **Link**: https://pixabay.com/music/pop-patents-219735/
+   - **Copyright**: © OceanKing
+
+4. **Asset Name**: vibrating-thud-39536.mp3
+   - **Author**: Jerimee (Freesound)
+   - **License**: CC0
+   - **Link**: https://pixabay.com/sound-effects/vibrating-thud-39536/
+   - **Copyright**: © Jerimee (Freesound)
+
+5. **Asset Name**: Jupiteroid Regular Font
+   - **Author**: GGBotNet
+   - **License**: CC0
+   - **Link**: https://www.fontspace.com/jupiteroid-font-f90261
+   - **Copyright**: © GGBotNet
+
+6. **Asset Name**: Robot.fbx
+   - **Author**: Heroicsolo
+   - **License**: CC0
+   - **Copyright**: Generated using Meshy
+
+7. **Asset Name**: DayTimeSky.png
+   - **Author**: Heroicsolo
+   - **License**: CC0
+   - **Copyright**: Generated using DALL-E
+
+8. **Asset Name**: Dollars.png
+   - **Author**: Heroicsolo
+   - **License**: CC0
+   - **Copyright**: Generated using OpenArt.ai
+
+9. **Asset Name**: gemstone-26088_1280.png
+   - **Author**: Clker-Free-Vector-Images (pixabay.com)
+   - **License**: CC0
+   - **Link**: https://www.needpix.com/photo/19623/gemstone-diamond-blue-turquoise-symmetry-shape-crystal-shiny-valuable-jewel
+   - **Copyright**: © Clker-Free-Vector-Images (pixabay.com)
+
+10. **Asset Name**: 528957__beetlemuse__correct-answer-thats-right.ogg
+   - **Author**: Beetlemuse
+   - **License**: CC0
+   - **Link**: https://freesound.org/s/528957/
+   - **Copyright**: © Beetlemuse
+
+11. **Asset Name**: 212172__scottfromscott__n3.ogg
+   - **Author**: scottfromscott
+   - **License**: CC0
+   - **Link**: https://freesound.org/s/212172/
+   - **Copyright**: © scottfromscott
+
+12. **Asset Name**: 212166__scottfromscott__n2.ogg
+   - **Author**: scottfromscott
+   - **License**: CC0
+   - **Link**: https://freesound.org/s/212166/
+   - **Copyright**: © scottfromscott
+
+13. **Asset Name**: 212148__scottfromscott__n1.ogg
+   - **Author**: scottfromscott
+   - **License**: CC0
+   - **Link**: https://freesound.org/s/212148/
+   - **Copyright**: © scottfromscott
+
+14. **Asset Name**: Target--Streamline-Solar-Broken.png
+   - **Author**: 480 Design
+   - **License**: CC0
+   - **Link**: https://www.streamlinehq.com/icons/download/target--29248
+   - **Copyright**: © 480 Design
+
+15. **Asset Name**: Health--Streamline-Solar-Broken.png
+   - **Author**: 480 Design
+   - **License**: CC0
+   - **Link**: https://www.streamlinehq.com/icons/download/health--29239
+   - **Copyright**: © 480 Design
+
+16. **Asset Name**: Star-Rings--Streamline-Solar-Broken.png
+   - **Author**: 480 Design
+   - **License**: CC0
+   - **Link**: https://www.streamlinehq.com/icons/download/health--29253
+   - **Copyright**: © 480 Design
+
+17. **Asset Name**: DOTween
+   - **Author**: Daniele Giardini (Demigiant)
+   - **License**: Custom Proprietary License (see Heroic Engine/Plugins/Demigiant/DOTween/License.txt for details)
+   - **Link**: http://dotween.demigiant.com
+   - **Copyright**: © Demigiant
+
+18. **Asset Name**: Unity Standard Assets
+   - **Author**: Unity Technologies
+   - **License**: Unity Companion License
+   - **Link**: https://unity3d.com/legal/licenses/Unity_Companion_License
+   - **Copyright**: © Unity Technologies

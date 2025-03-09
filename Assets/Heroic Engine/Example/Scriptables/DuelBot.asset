@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9be985ec6782c9419ab56660b356a36, type: 3}
+  m_Name: DuelBot
+  m_EditorClassIdentifier: 
+  guid: 91557f4b-6911-4753-80cc-96bf27a0c0d1
+  inputsNumber: 9
+  neuronsNumber: 27
+  useKnowledgeBase: 0
+  learningRate: 0.1
+  trainingEpochs: 5000
+  perceptronTrainingDatas: []
