@@ -154,7 +154,10 @@ public class PlayerController : Hittable, IInjectable
     {
         soundsManager.PlayClip(getDamageSounds.GetRandomElement());
         eventsManager.TriggerEvent(PlayerDamagedEvent);
-        animator.SetTrigger(DamagedAnimHash);
+        if (!IsDead())
+        {
+            animator.SetTrigger(DamagedAnimHash);
+        }
         UpdateHealthBar(damage);
     }
 

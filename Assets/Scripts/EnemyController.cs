@@ -126,7 +126,11 @@ public class EnemyController : Hittable, IInjectable
     private void OnDamaged(float damage)
     {
         audioSource.PlayOneShot(damagedSound);
-        animator.SetTrigger(DamagedAnimHash);
+
+        if (!IsDead())
+        {
+            animator.SetTrigger(DamagedAnimHash);
+        }
 
         var damageText = PoolSystem.GetInstanceAtPosition(combatText, combatText.GetName(), botCanvas.transform.position, botCanvas.transform);
         damageText.SetText($"-{Mathf.CeilToInt(damage)}");
