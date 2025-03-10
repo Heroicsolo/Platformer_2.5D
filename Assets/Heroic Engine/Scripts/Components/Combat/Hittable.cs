@@ -10,6 +10,7 @@ namespace HeroicEngine.Components.Combat
         [Inject] private IHittablesManager hittablesManager;
 
         protected float currHealth;
+        protected bool isImmuneToDamage;
         [SerializeField] protected float maxHealth;
         [SerializeField] protected TeamType teamType;
 
@@ -18,6 +19,7 @@ namespace HeroicEngine.Components.Combat
         protected UnityEvent OnDeath { get; set; }
 
         public TeamType TeamType => teamType;
+        public bool IsImmuneToDamage => isImmuneToDamage;
 
         /// <summary>
         /// This method assigns hittable object to certain team.
@@ -46,7 +48,7 @@ namespace HeroicEngine.Components.Combat
         /// <param name="damage">Amount of damage</param>
         public void GetDamage(float damage)
         {
-            if (damage <= 0f || currHealth <= 0f)
+            if (damage <= 0f || currHealth <= 0f || isImmuneToDamage)
             {
                 return;
             }

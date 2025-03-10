@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 4166436800578995651}
   - component: {fileID: 2202920546328583106}
   - component: {fileID: 6997740069433893772}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!70 &2202920546328583106
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -301,12 +301,18 @@ MonoBehaviour:
   teamType: 2
   animator: {fileID: 1198313678150295188}
   speed: 5
+  patrollingSpeed: 1.75
   resetDistance: 10
   patrolPoints: []
   reachPositionThreshold: 0.2
-  attackDistance: 1.5
+  aggroDistance: 5
+  attackDistance: 2
   attackPower: 1
   attackSpeed: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 9
+  combatText: {fileID: 5294132566854878850, guid: 112abe56db7d76e48b1db86ef88a64fa, type: 3}
   audioSource: {fileID: 5399894364957205635}
   aggroSound: {fileID: 8300000, guid: 6df1f546cea8eee4a88976ac35183868, type: 3}
   damagedSound: {fileID: 8300000, guid: 3f229010acd405f4b95d6f4be28f747a, type: 3}
@@ -459,7 +465,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -848,7 +854,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 031a8a205380e8b4bbf61f407b2b603f, type: 2}
+      objectReference: {fileID: 9100000, guid: 82248592db9c52447a5bee5829d85286, type: 2}
     - target: {fileID: 5866666021909216657, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -856,7 +862,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1117357917603996575}
   m_SourcePrefab: {fileID: 100100000, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
 --- !u!95 &1198313678150295188 stripped
 Animator:
@@ -868,3 +877,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
   m_PrefabInstance: {fileID: 4741118710484525829}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5551460085356453460 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: dd0caf672ed8d034d8213a960d7d155a, type: 3}
+  m_PrefabInstance: {fileID: 4741118710484525829}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1117357917603996575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551460085356453460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af83427f51c44dc429ae6a66e51c0cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

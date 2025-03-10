@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 5620925503782997965}
   - component: {fileID: 3939059508732094571}
   - component: {fileID: 942807337278842127}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,7 +197,7 @@ MonoBehaviour:
   teamType: 1
   speed: 5
   jumpForce: 6
-  attackDistance: 1.5
+  attackDistance: 2
   attackPower: 1
   animator: {fileID: 6188927944772074749}
   groundCheckPivot: {fileID: 3542449809254811500}
@@ -313,6 +313,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3716763608829115817}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ab01410b47f545e4d9aeb3c1dcce6379, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4726795847329786611}
     - targetCorrespondingSourceObject: {fileID: 2715566404302941441, guid: ab01410b47f545e4d9aeb3c1dcce6379, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3653688465481948515}
@@ -328,6 +331,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ab01410b47f545e4d9aeb3c1dcce6379, type: 3}
   m_PrefabInstance: {fileID: 327048106214424940}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &596869152554957885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ab01410b47f545e4d9aeb3c1dcce6379, type: 3}
+  m_PrefabInstance: {fileID: 327048106214424940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4726795847329786611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596869152554957885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af83427f51c44dc429ae6a66e51c0cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2106633833306390180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: ab01410b47f545e4d9aeb3c1dcce6379, type: 3}

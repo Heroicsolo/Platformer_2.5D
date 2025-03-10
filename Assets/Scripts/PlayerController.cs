@@ -20,14 +20,20 @@ public class PlayerController : Hittable, IInjectable
     private readonly int JumpAnimHash = Animator.StringToHash("Jump");
     private readonly int AnimVariationHash = Animator.StringToHash("AnimVariation");
 
+    [SerializeField] private Animator animator;
+
+    [Header("Movement")]
     [SerializeField] [Min(0f)] private float speed = 5f;
     [SerializeField] [Min(0f)] private float jumpForce = 10f;
-    [SerializeField] [Min(0f)] private float attackDistance = 1.5f;
-    [SerializeField] [Min(0f)] private float attackPower = 1f;
-    [SerializeField] private Animator animator;
     [SerializeField] private Transform groundCheckPivot;
     [SerializeField] private LayerMask groundCheckLayers;
-    [SerializeField] [Min(0f)] private float groundCheckRadius = 0.1f;
+    [SerializeField][Min(0f)] private float groundCheckRadius = 0.1f;
+
+    [Header("Combat")]
+    [SerializeField] [Min(0f)] private float attackDistance = 1.5f;
+    [SerializeField] [Min(0f)] private float attackPower = 1f;
+
+    [Header("Sounds")]
     [SerializeField] private List<AudioClip> attackSounds;
     [SerializeField] private List<AudioClip> getDamageSounds;
     [SerializeField] private AudioClip jumpSound;
@@ -37,13 +43,21 @@ public class PlayerController : Hittable, IInjectable
     [Inject] private IHittablesManager hittablesManager;
     [Inject] private IUIController uiController;
     [Inject] private ISoundsManager soundsManager;
-    
+
+    #region Private Params
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveDirection;
     private float lastDirection;
     private Collider2D[] groundCheckResults = new Collider2D[1];
     private Slider hpBar;
+    #endregion
+
+    #region Lifetime Methods
+
+    public void PostInject()
+    {
+    }
 
     protected override void Awake()
     {
@@ -70,16 +84,48 @@ public class PlayerController : Hittable, IInjectable
         cameraController.SetPlayerTransform(transform);
 
         inputManager.AddKeyDownListener(KeyCode.Space, Jump);
-        inputManager.AddKeyDownListener(KeyCode.Mouse0, PerformAttack);
+        inputManager.AddKeyDownListener(KeyCode.Mouse0, StartAttack);
 
         SubscribeToDeath(PlayDeathAnim);
         SubscribeToDamageGot(OnDamaged);
         SubscribeToHealingGot(UpdateHealthBar);
     }
 
-    public void PostInject()
+    private void Update()
     {
+        if (IsDead())
+        {
+            return;
+        }
+
+        moveDirection = inputManager.GetMovementDirection().x;
+        rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
+
+        if (Mathf.Abs(moveDirection) > 0f)
+        {
+            animator.SetBool(RunAnimHash, true);
+            lastDirection = moveDirection;
+        }
+        else
+        {
+            animator.SetBool(RunAnimHash, false);
+        }
+
+        CheckGround();
+
+        ChangeAnimVariation();
     }
+
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.Euler(0f, lastDirection >= 0f ? 0f : 180f, 0f);
+    }
+
+    private void OnDisable()
+    {
+        inputManager.RemoveKeyDownListener(KeyCode.Space, Jump);
+    }
+    #endregion
 
     private void ChangeAnimVariation()
     {
@@ -117,12 +163,17 @@ public class PlayerController : Hittable, IInjectable
         animator.SetTrigger(DeathAnimHash);
     }
 
-    private void PerformAttack()
+    #region Attack
+
+    private void StartAttack()
     {
         animator.SetTrigger(AttackAnimHash);
 
         soundsManager.PlayClip(attackSounds.GetRandomElement());
+    }
 
+    private void PerformAttack()
+    {
         var enemiesInRadius = hittablesManager.GetTeamHittablesInRadius(transform.position, attackDistance, TeamType.Enemies);
 
         enemiesInRadius.ForEach(enemy =>
@@ -130,6 +181,7 @@ public class PlayerController : Hittable, IInjectable
             enemy.GetDamage(attackPower);
         });
     }
+    #endregion
 
     private void CheckGround()
     {
@@ -141,40 +193,5 @@ public class PlayerController : Hittable, IInjectable
         {
             animator.ResetTrigger(JumpAnimHash);
         }
-    }
-
-    private void Update()
-    {
-        if (IsDead())
-        {
-            return;
-        }
-
-        moveDirection = inputManager.GetMovementDirection().x;
-        rb.velocity = new Vector2(moveDirection * speed, rb.velocity.y);
-
-        if (Mathf.Abs(moveDirection) > 0f)
-        {
-            animator.SetBool(RunAnimHash, true);
-            lastDirection = moveDirection;
-        }
-        else
-        {
-            animator.SetBool(RunAnimHash, false);
-        }
-
-        CheckGround();
-
-        ChangeAnimVariation();
-    }
-
-    private void LateUpdate()
-    {
-        transform.rotation = Quaternion.Euler(0f, lastDirection >= 0f ? 0f : 180f, 0f);
-    }
-
-    private void OnDisable()
-    {
-        inputManager.RemoveKeyDownListener(KeyCode.Space, Jump);
     }
 }
