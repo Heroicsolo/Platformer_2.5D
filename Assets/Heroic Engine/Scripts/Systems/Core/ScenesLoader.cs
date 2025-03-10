@@ -93,11 +93,6 @@ namespace HeroicEngine.Systems.ScenesManagement
 
             uiController.HideUIParts(UIPartType.LoadingScreen);
 
-            if (SceneManager.GetActiveScene().buildIndex != 0)
-            {
-                uiController.ShowUIParts(UIPartType.ExitButton);
-            }
-
             if (SceneManager.GetActiveScene().name == "MainMenuScene")
             {
                 musicPlayer.Play(MusicEntryType.MainMenu);
@@ -105,6 +100,7 @@ namespace HeroicEngine.Systems.ScenesManagement
             else
             {
                 musicPlayer.Play(MusicEntryType.InGame);
+                uiController.ShowUIParts(UIPartType.ExitButton);
             }
 
             sceneLoading = false;

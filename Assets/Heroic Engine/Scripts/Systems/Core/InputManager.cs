@@ -61,7 +61,7 @@ namespace HeroicEngine.Systems.Inputs
             {
                 if (Input.GetKeyDown(key))
                 {
-                    keyDownCallbacks[key].Invoke();
+                    keyDownCallbacks[key]?.Invoke();
                 }
             }
         }
