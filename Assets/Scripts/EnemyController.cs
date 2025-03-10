@@ -14,6 +14,7 @@ public class EnemyController : Hittable, IInjectable
     private readonly int RunAnimHash = Animator.StringToHash("Running");
     private readonly int AttackAnimHash = Animator.StringToHash("Attack");
     private readonly int DeathAnimHash = Animator.StringToHash("Death");
+    private readonly int DamagedAnimHash = Animator.StringToHash("Damaged");
 
     [SerializeField] private Animator animator;
 
@@ -125,6 +126,7 @@ public class EnemyController : Hittable, IInjectable
     private void OnDamaged(float damage)
     {
         audioSource.PlayOneShot(damagedSound);
+        animator.SetTrigger(DamagedAnimHash);
 
         var damageText = PoolSystem.GetInstanceAtPosition(combatText, combatText.GetName(), botCanvas.transform.position, botCanvas.transform);
         damageText.SetText($"-{Mathf.CeilToInt(damage)}");

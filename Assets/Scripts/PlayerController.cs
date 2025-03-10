@@ -4,6 +4,7 @@ using HeroicEngine.Enums;
 using HeroicEngine.Systems;
 using HeroicEngine.Systems.Audio;
 using HeroicEngine.Systems.DI;
+using HeroicEngine.Systems.Events;
 using HeroicEngine.Systems.Gameplay;
 using HeroicEngine.Systems.Inputs;
 using HeroicEngine.Systems.UI;
@@ -14,10 +15,13 @@ using UnityEngine.UI;
 
 public class PlayerController : Hittable, IInjectable
 {
+    private const string PlayerDamagedEvent = "PlayerDamaged";
+
     private readonly int RunAnimHash = Animator.StringToHash("Running");
     private readonly int AttackAnimHash = Animator.StringToHash("Attack");
     private readonly int DeathAnimHash = Animator.StringToHash("Death");
     private readonly int JumpAnimHash = Animator.StringToHash("Jump");
+    private readonly int DamagedAnimHash = Animator.StringToHash("Damaged");
     private readonly int AnimVariationHash = Animator.StringToHash("AnimVariation");
 
     [SerializeField] private Animator animator;
@@ -43,6 +47,7 @@ public class PlayerController : Hittable, IInjectable
     [Inject] private IHittablesManager hittablesManager;
     [Inject] private IUIController uiController;
     [Inject] private ISoundsManager soundsManager;
+    [Inject] private IEventsManager eventsManager;
 
     #region Private Params
     private Rigidbody2D rb;
@@ -148,6 +153,8 @@ public class PlayerController : Hittable, IInjectable
     private void OnDamaged(float damage)
     {
         soundsManager.PlayClip(getDamageSounds.GetRandomElement());
+        eventsManager.TriggerEvent(PlayerDamagedEvent);
+        animator.SetTrigger(DamagedAnimHash);
         UpdateHealthBar(damage);
     }
 
@@ -161,6 +168,12 @@ public class PlayerController : Hittable, IInjectable
         moveDirection = 0f;
         rb.velocity = Vector2.zero;
         animator.SetTrigger(DeathAnimHash);
+        Invoke(nameof(Lose), 3f);
+    }
+
+    private void Lose()
+    {
+        uiController.ShowUIParts(UIPartType.FailScreen);
     }
 
     #region Attack

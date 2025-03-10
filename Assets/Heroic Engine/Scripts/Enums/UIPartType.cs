@@ -12,5 +12,6 @@ public enum UIPartType {
 	ExitButton = 9,
 	ExperiencePanel = 10,
 	PlayerHealthBar = 11,
+	DamageScreenEffect = 12,
 }
 }
