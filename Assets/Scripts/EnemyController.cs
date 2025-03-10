@@ -110,6 +110,11 @@ public class EnemyController : Hittable, IInjectable
         rb.velocity = new Vector2(moveDirection.x * actualSpeed, rb.velocity.y);
     }
 
+    private void OnDisable()
+    {
+        RemoveAllListeners();
+    }
+
     private void OnDrawGizmos()
     {
         patrolPoints.ForEach(p =>

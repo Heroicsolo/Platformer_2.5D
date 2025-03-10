@@ -1,5 +1,6 @@
 using HeroicEngine.Systems.DI;
 using HeroicEngine.Systems.Gameplay;
+using HeroicEngine.Systems.ScenesManagement;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,7 @@ namespace HeroicEngine.Components.Combat
     public abstract class Hittable : MonoBehaviour
     {
         [Inject] private IHittablesManager hittablesManager;
+        [Inject] private ScenesLoader scenesLoader;
 
         protected float currHealth;
         protected bool isImmuneToDamage;
@@ -48,7 +50,7 @@ namespace HeroicEngine.Components.Combat
         /// <param name="damage">Amount of damage</param>
         public void GetDamage(float damage)
         {
-            if (damage <= 0f || currHealth <= 0f || isImmuneToDamage)
+            if (damage <= 0f || currHealth <= 0f || isImmuneToDamage || scenesLoader.IsSceneLoading())
             {
                 return;
             }

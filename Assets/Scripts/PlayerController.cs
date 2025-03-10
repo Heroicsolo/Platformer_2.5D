@@ -7,6 +7,7 @@ using HeroicEngine.Systems.DI;
 using HeroicEngine.Systems.Events;
 using HeroicEngine.Systems.Gameplay;
 using HeroicEngine.Systems.Inputs;
+using HeroicEngine.Systems.ScenesManagement;
 using HeroicEngine.Systems.UI;
 using HeroicEngine.Utils.Math;
 using System.Collections.Generic;
@@ -48,6 +49,7 @@ public class PlayerController : Hittable, IInjectable
     [Inject] private IUIController uiController;
     [Inject] private ISoundsManager soundsManager;
     [Inject] private IEventsManager eventsManager;
+    [Inject] private ScenesLoader scenesLoader;
 
     #region Private Params
     private Rigidbody2D rb;
@@ -98,7 +100,7 @@ public class PlayerController : Hittable, IInjectable
 
     private void Update()
     {
-        if (IsDead())
+        if (IsDead() || scenesLoader.IsSceneLoading())
         {
             return;
         }
@@ -129,6 +131,11 @@ public class PlayerController : Hittable, IInjectable
     private void OnDisable()
     {
         inputManager.RemoveKeyDownListener(KeyCode.Space, Jump);
+        inputManager.RemoveKeyDownListener(KeyCode.Mouse0, StartAttack);
+
+        uiController.HideUIParts(UIPartType.PlayerHealthBar);
+
+        RemoveAllListeners();
     }
     #endregion
 
